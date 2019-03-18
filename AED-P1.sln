@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2050
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AED-P1", "AED-P1\AED-P1.csproj", "{73F74013-BDCD-4C4F-807C-1621C9DD9D44}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73F74013-BDCD-4C4F-807C-1621C9DD9D44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73F74013-BDCD-4C4F-807C-1621C9DD9D44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73F74013-BDCD-4C4F-807C-1621C9DD9D44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73F74013-BDCD-4C4F-807C-1621C9DD9D44}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {41F6B67C-F55A-42ED-A4A4-7BB9371BAC7E}
+	EndGlobalSection
+EndGlobal
