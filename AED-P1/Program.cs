@@ -8,44 +8,36 @@ namespace AED_P1
 {
     class Program
     {
+        private static string[] types = new string[] { "bubble", "selection", "insertion", "quick", "merge", "mixed" };
+
         static void Main(string[] args)
         {
             Console.WriteLine("Sorting Algorithms Analysis\n");
-            while (true)
+
+            Airbnb airbnb = new Airbnb();
+            List<Airbnb> roomList = airbnb.GetDataFromFile();
+            List<Result> results = new List<Result>();
+
+            for (int i = 2000; i <= 128000; i *= 2)
             {
-                Console.Write("Type........: ");
-                string type = Console.ReadLine();
-                Console.Write("Sample Size.: ");
-                int size = int.Parse(Console.ReadLine());
-
-                Airbnb airbnb = new Airbnb();
-                List<Airbnb> roomList = airbnb.getDataFromFile();
-
-                if (size > roomList.Count)
+                for (int j = 1; j <= 5; j++)
                 {
-                    Console.WriteLine("Assuming....: {0} (data file rows count).", roomList.Count);
-                    size = roomList.Count;
-                }
+                    results.Add(new Result() { attempt = j, sample = i });
+                    foreach (string type in types)
+                    {
+                        long time = airbnb.SortList(roomList, i, type);
+                        results[results.Count - 1].GetType().GetProperty(type).SetValue(results[results.Count - 1], time);
 
-                Console.Write("Calculating..");
-                long timeElapsed = airbnb.SortList(roomList, size, type);
-                if (timeElapsed < 0)
-                {
-                    Console.WriteLine("Invalid Type\n");
-                    continue;
+                        Console.WriteLine("Attempt: {0}", j);
+                        Console.WriteLine("Sample.: {0}", i);
+                        Console.WriteLine("Type...: {0}", type);
+                        Console.WriteLine("Time...: {0}\n", time);
+                    }
                 }
-                ShowResult(timeElapsed);
             }
-        }
 
-        static void ShowResult(long time)
-        {
-            int currentLineCursor = Console.CursorTop;
-            Console.SetCursorPosition(0, Console.CursorTop);
-            Console.Write(new string(' ', Console.WindowWidth));
-            Console.SetCursorPosition(0, currentLineCursor);
-
-            Console.WriteLine("Elapsed Time: {0} ms\n", time);
+            airbnb.WriteResultsToFile(results);
+            Console.WriteLine("Done! Check out the results in the csv generated file.");
         }
     }
 }

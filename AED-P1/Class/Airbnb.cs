@@ -23,9 +23,9 @@ namespace AED_P1
         public double price { get; set; }
         public string propertyType { get; set; }
 
-        public List<Airbnb> getDataFromFile()
+        public List<Airbnb> GetDataFromFile()
         {
-            List<Airbnb> collection  = new List<Airbnb>();
+            List<Airbnb> collection = new List<Airbnb>();
             StreamReader reader = new StreamReader(@"dados_airbnb.txt");
             reader.ReadLine();
 
@@ -49,7 +49,31 @@ namespace AED_P1
 
                 collection.Add(row);
             }
+
+            reader.Close();
             return collection;
+        }
+
+        public void WriteResultsToFile(List<Result> l)
+        {
+            StreamWriter writer = new StreamWriter(@"analysis.csv");
+            writer.WriteLine("attempt, sample, bubble, selection, insertion, quick, merge, mixed");
+
+            foreach (Result r in l)
+            {
+                writer.WriteLine(
+                    "{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}",
+                    r.attempt,
+                    r.sample,
+                    r.bubble,
+                    r.selection,
+                    r.insertion,
+                    r.quick,
+                    r.merge,
+                    r.mixed
+                );
+            }
+            writer.Close();
         }
 
         public long SortList(List<Airbnb> l, int size, string type)
@@ -97,8 +121,6 @@ namespace AED_P1
                     Sort.Mixed(roomIDs);
                     stopwatch.Stop();
                     break;
-                default:
-                    return -1;
             }
 
             return stopwatch.ElapsedMilliseconds;
