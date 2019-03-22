@@ -8,132 +8,137 @@ namespace AED_P1
 {
     static class Sort
     {
-        public static void Bubble(int[] v)
+        public static void Bubble(List<Airbnb> l)
         {
-            for (int i = 0; i < v.Length - 1; i++)
-                for (int j = 0; j < v.Length - i - 1; j++)
-                    if (v[j] > v[j + 1])
-                        swap(ref v[j], ref v[j + 1]);
+            for (int i = 0; i < l.Count - 1; i++)
+                for (int j = 0; j < l.Count - i - 1; j++)
+                    if (l[j].roomID > l[j + 1].roomID)
+                    {
+                        Airbnb aux = l[j];
+                        l[j] = l[j + 1];
+                        l[j + 1] = aux;
+                    }
         }
 
-        public static void Selection(int[] v)
+        public static void Selection(List<Airbnb> l)
         {
-            for (int i = 0; i < v.Length - 1; i++)
+            for (int i = 0; i < l.Count - 1; i++)
             {
-                int smaller = i;
+                int min = i;
 
-                for (int j = i + 1; j < v.Length; j++)
-                    if (v[j] < v[smaller])
-                        smaller = j;
+                for (int j = i + 1; j < l.Count; j++)
+                    if (l[j].roomID < l[min].roomID)
+                        min = j;
 
-                swap(ref v[smaller], ref v[i]);
+                Airbnb aux = l[i];
+                l[i] = l[min];
+                l[min] = aux;
             }
         }
 
-        public static void Insertion(int[] v)
+        public static void Insertion(List<Airbnb> l)
         {
-            for (int i = 1; i < v.Length; i++)
+            for (int i = 1; i < l.Count; i++)
             {
                 int j = i;
-                while (j > 0 && v[j] < v[j - 1])
+                while (j > 0 && l[j].roomID < l[j - 1].roomID)
                 {
-                    swap(ref v[j], ref v[j - 1]);
+                    Airbnb aux = l[j];
+                    l[j] = l[j - 1];
+                    l[j - 1] = aux;
                     j--;
                 }
             }
         }
 
-        public static void Merge(int[] v, int start, int end)
-        {
-            if (start < end)
-            {
-                int middle = (start + end) / 2;
-                Merge(v, start, middle);
-                Merge(v, middle + 1, end);
-                merge(v, start, middle + 1, end);
-            }
-        }
-
-        private static void merge(int[] v, int start, int middle, int end)
-        {
-            int[] aux = new int[v.Length];
-
-            int lEnd = (middle - 1);
-            int curr = start;
-
-            while ((start <= lEnd) && (middle <= end))
-            {
-                if (v[start] <= v[middle])
-                    aux[curr++] = v[start++];
-                else
-                    aux[curr++] = v[middle++];
-            }
-
-            while (start <= lEnd)
-                aux[curr++] = v[start++];
-
-            while (middle <= end)
-                aux[curr++] = v[middle++];
-
-            int num = (end - start + 1);
-
-            for (int i = 0; i < num; i++)
-            {
-                v[end] = aux[end];
-                end--;
-            }
-        }
-
-        public static void Quick(int[] v, int left, int right)
+        public static void Quick(List<Airbnb> l, int left, int right)
         {
             int i = left,
                 j = right,
-                pivot = v[(left + right) / 2];
+                pivot = l[(left + right) / 2].roomID;
 
             while (i <= j)
             {
-                while (v[i] < pivot && i < right) i++;
-                while (v[j] > pivot && j > left) j--;
+                while (l[i].roomID < pivot && i < right) i++;
+                while (l[j].roomID > pivot && j > left) j--;
 
                 if (i <= j)
                 {
-                    swap(ref v[i], ref v[j]);
+                    Airbnb aux = l[i];
+                    l[i] = l[j];
+                    l[j] = aux;
                     i++;
                     j--;
                 }
             }
 
             if (j > left)
-                Quick(v, left, j);
+                Quick(l, left, j);
 
             if (i < right)
-                Quick(v, i, right);
+                Quick(l, i, right);
         }
 
-        public static void Mixed(int[] v)
+        public static void Merge(List<Airbnb> l, int start, int end)
         {
-            for (int i = 0; i < v.Length - 1; i++)
-                for (int j = 0; j < v.Length - i - 1; j++)
-                    if (v[j] < v[j + 1])
-                        swap(ref v[j], ref v[j + 1]);
-
-            for (int i = 0; i < v.Length - 1; i++)
+            if (start < end)
             {
-                int min = i;
-
-                for (int j = i + 1; j < v.Length; j++)
-                    if (v[j] < v[min])
-                        min = j;
-
-                swap(ref v[min], ref v[i]);
+                int middle = (start + end) / 2;
+                Merge(l, start, middle);
+                Merge(l, middle + 1, end);
+                merge(l, start, middle, end);
             }
         }
 
-        private static void swap(ref int x, ref int y)
+        private static void merge(List<Airbnb> l, int start, int middle, int end)
         {
-            int aux = x;
-            x = y;
-            y = aux;
+            int n1 = middle - start + 1;
+            int n2 = end - middle;
+
+            List<Airbnb> l1 = new List<Airbnb>();
+            List<Airbnb> l2 = new List<Airbnb>();
+
+            int i, j;
+            for (i = 0; i < n1; i++)
+                l1.Add(l[start + i]);
+            for (j = 0; j < n2; j++)
+                l2.Add(l[middle + j + 1]);
+
+            l1.Add(new Airbnb() { roomID = Int32.MaxValue });
+            l2.Add(new Airbnb() { roomID = Int32.MaxValue });
+
+            i = j = 0;
+
+            for (int k = start; k <= end; k++)
+                if (l1[i].roomID <= l2[j].roomID)
+                    l[k] = l1[i++];
+                else
+                    l[k] = l2[j++];
+        }
+
+        public static void Mixed(List<Airbnb> l)
+        {
+            for (int i = 0; i < l.Count - 1; i++)
+                for (int j = 0; j < l.Count - i - 1; j++)
+                    if (l[j].roomID < l[j + 1].roomID)
+                    {
+                        Airbnb aux = l[j];
+                        l[j] = l[j + 1];
+                        l[j + 1] = aux;
+                    }
+
+            for (int i = 0; i < l.Count - 1; i++)
+            {
+                int min = i;
+
+                for (int j = i + 1; j < l.Count; j++)
+                    if (l[j].roomID < l[min].roomID)
+                        min = j;
+
+                Airbnb aux = l[i];
+                l[i] = l[min];
+                l[min] = aux;
+            }
         }
     }
 }

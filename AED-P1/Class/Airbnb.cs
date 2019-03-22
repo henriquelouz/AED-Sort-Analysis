@@ -23,6 +23,8 @@ namespace AED_P1
         public double price { get; set; }
         public string propertyType { get; set; }
 
+
+
         public List<Airbnb> GetDataFromFile()
         {
             List<Airbnb> collection = new List<Airbnb>();
@@ -78,51 +80,42 @@ namespace AED_P1
 
         public long SortList(List<Airbnb> l, int size, string type)
         {
-            int[] roomIDs = new int[size];
-            int i = 0;
-
-            foreach (Airbnb row in l.Take(size))
-            {
-                roomIDs[i] = row.roomID;
-                i++;
-            }
-
+            l = l.Take(size).ToList();
             Stopwatch stopwatch = new Stopwatch();
 
             switch (type)
             {
                 case "bubble":
                     stopwatch.Start();
-                    Sort.Bubble(roomIDs);
+                    Sort.Bubble(l);
                     stopwatch.Stop();
                     break;
                 case "selection":
                     stopwatch.Start();
-                    Sort.Selection(roomIDs);
+                    Sort.Selection(l);
                     stopwatch.Stop();
                     break;
                 case "insertion":
                     stopwatch.Start();
-                    Sort.Insertion(roomIDs);
+                    Sort.Insertion(l);
                     stopwatch.Stop();
                     break;
                 case "quick":
                     stopwatch.Start();
-                    Sort.Quick(roomIDs, 0, roomIDs.Length - 1);
+                    Sort.Quick(l, 0, l.Count - 1);
                     stopwatch.Stop();
                     break;
                 case "merge":
                     stopwatch.Start();
-                    Sort.Merge(roomIDs, 0, roomIDs.Length - 1);
+                    Sort.Merge(l, 0, l.Count - 1);
                     stopwatch.Stop();
                     break;
                 case "mixed":
                     stopwatch.Start();
-                    Sort.Mixed(roomIDs);
+                    Sort.Mixed(l);
                     stopwatch.Stop();
                     break;
             }
-
             return stopwatch.ElapsedMilliseconds;
         }
     }
