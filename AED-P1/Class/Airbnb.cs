@@ -23,8 +23,6 @@ namespace AED_P1
         public double price { get; set; }
         public string propertyType { get; set; }
 
-
-
         public List<Airbnb> GetDataFromFile()
         {
             List<Airbnb> collection = new List<Airbnb>();
