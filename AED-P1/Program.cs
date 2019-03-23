@@ -14,9 +14,20 @@ namespace AED_P1
         {
             Console.WriteLine("Sorting Algorithms Analysis\n");
 
+            Console.Write("Which case? (b/r/w): ");
+            char sortCase = char.Parse(Console.ReadLine());
+
+
             Airbnb airbnb = new Airbnb();
             List<Airbnb> roomList = airbnb.GetDataFromFile();
             List<Result> results = new List<Result>();
+
+            if (sortCase == 'b' || sortCase == 'w')
+            {
+                roomList = roomList.OrderBy(o => o.roomID).ToList();
+                if (sortCase == 'w')
+                   roomList.Reverse();
+            }
 
             for (int i = 2000; i <= 128000; i *= 2)
             {
